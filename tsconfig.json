@@ -10,7 +10,7 @@
     "importHelpers": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
-    //"moduleResolution": "node",
+    "moduleResolution": "node",
     /* allow to import json files (though VS code still complains)*/
     //"resolveJsonModule": true,
     "noImplicitAny": true,

@@ -22,7 +22,8 @@
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "postversion": "git push && git push --tags",
-    "publish": "npm publish --access public",
+    "release": "npm publish --access public",
+    "pre-commit": "npm run format && npm run lint && npm run test",
     "version": "npm run format && git add -A src",
     "format": "npx prettier --write .",
     "lint": "npx prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -34,12 +35,14 @@
   },
   "dependencies": {
     "@codemucker/ts-lang": "^0.1.0",
-    "@codemucker/ts-logging": "^0.1.0"
+    "@codemucker/ts-logging": "^0.1.0",
+    "tslib": "^2.0.3"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
     "jest": "^26.6.1",
     "prettier": "2.1.2",
+    "shared-git-hooks": "^1.2.1",
     "ts-jest": "^26.4.0",
     "typescript": "~3.9.3"
   }

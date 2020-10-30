@@ -11,7 +11,7 @@ function log(...data: any[]) {
   realConsoleLog(...data)
 }
 
-let currentScenario: StepScenario | undefined // = new StepScenario("scenario not set", () => {});
+let currentScenario: ScenarioImp | undefined // = new ScenarioImp("scenario not set", () => {});
 
 /**
  * Just a warpper around a describe for now
@@ -54,7 +54,7 @@ export function Scenario(
     test.skip(`PENDING Scenario '${label}'`, emptyTestFunc)
   } else {
     test(`Scenario '${label}'`, async (jestDone: JestDone) => {
-      currentScenario = new StepScenario(
+      currentScenario = new ScenarioImp(
         label,
         actualScenarioBody,
         jestDone,
@@ -65,16 +65,16 @@ export function Scenario(
   }
 }
 
-export function Given(label: string, stepBody: TestFunc) {
-  addStep('Given', label, stepBody)
+export function Given(label: string, stepBody: TestFunc): Step {
+  return addStep('Given', label, stepBody)
 }
 
-export function When(label: string, stepBody: TestFunc) {
-  addStep('When', label, stepBody)
+export function When(label: string, stepBody: TestFunc): Step {
+  return addStep('When', label, stepBody)
 }
 
-export function Then(label: string, stepBody: TestFunc) {
-  addStep('Then', label, stepBody)
+export function Then(label: string, stepBody: TestFunc): Step {
+  return addStep('Then', label, stepBody)
 }
 
 export function And(label: string, stepBody: TestFunc): Step {
@@ -103,7 +103,7 @@ export function addStep(
   return getScenarioOrFail().addStep(stepType, stepLabel, stepBody)
 }
 
-function getScenarioOrFail(): StepScenario {
+function getScenarioOrFail(): ScenarioImp {
   if (currentScenario) {
     return currentScenario
   }
@@ -138,10 +138,11 @@ let scenarioCount = 0
 function newScenarioId() {
   return `Sce.${scenarioCount++}`
 }
-class StepScenario {
-  currentRunningStep: Step | undefined = undefined
 
-  steps: Step[] = []
+class ScenarioImp {
+  currentRunningStep: StepImp | undefined = undefined
+
+  steps: StepImp[] = []
   stepPos = 0
   id = newScenarioId()
 
@@ -172,7 +173,7 @@ class StepScenario {
     return `Scenario ${this.label} (${this.id})`
   }
 
-  addStep(stepType: StepType, stepLabel: string, stepBody: TestFunc): Step {
+  addStep(stepType: StepType, stepLabel: string, stepBody: TestFunc): StepImp {
     //console.log(`new step --- '${stepType} ${stepLabel}'`);
     const depth = this.currentRunningStep
       ? this.currentRunningStep.depth + 1
@@ -182,7 +183,7 @@ class StepScenario {
           this.currentRunningStep.steps.length + 1
         }`
       : `${this.steps.length + 1}`
-    const step = new Step(
+    const step = new StepImp(
       stepType,
       stepLabel,
       depth,
@@ -244,12 +245,12 @@ class StepScenario {
     }
   }
 
-  stepRunning(step: Step) {
+  stepRunning(step: StepImp) {
     this.debug(`Step started`, `'${step.desc}'`)
     this.currentRunningStep = step
   }
 
-  async stepFinished(step: Step) {
+  async stepFinished(step: StepImp) {
     this.debug(`Step finished`, `'${step.desc}'`, { passed: step.passed })
     this.currentRunningStep = undefined
     if (step.passed) {
@@ -289,7 +290,7 @@ class StepScenario {
         log(` [log] ${args[0]}`, ...args.slice(1))
       }
     }
-    const printSteps = (steps: Step[]) => {
+    const printSteps = (steps: StepImp[]) => {
       for (const step of steps) {
         let stepStatus = ''
         if (step.type.startsWith('Then') || step.type.startsWith('When')) {
@@ -346,8 +347,17 @@ class StepScenario {
   }
 }
 
-class Step {
-  readonly steps: Step[] = []
+export interface Step {
+  complete: boolean
+  error?: any
+  passed: boolean
+  failed: boolean
+  fullLabel: string
+  desc: string
+}
+
+class StepImp implements Step {
+  readonly steps: StepImp[] = []
   stepPos = 0
 
   complete = false
@@ -360,8 +370,8 @@ class Step {
     public readonly depth: number,
     public readonly id: string,
     public readonly stepBody: TestFunc,
-    public readonly scenario: StepScenario,
-    public readonly parent?: Step
+    public readonly scenario: ScenarioImp,
+    public readonly parent?: StepImp
   ) {}
 
   get passed() {
@@ -381,7 +391,7 @@ class Step {
     return `${padding}${this.id}. ${this.type} ${this.label}`
   }
 
-  addChildStep(step: Step) {
+  addChildStep(step: StepImp) {
     //console.log(`add step --- '${step.label}' to '${this.label}'`);
     this.steps.push(step)
   }
