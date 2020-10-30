@@ -4,7 +4,7 @@
  * This module adds the ability to auto extract the step labels for a more fluent experience
  */
 
-import { isFunction, isString } from '@codemucker/ts-lang'
+import { isFunction, isString } from '@codemucker/lang'
 import {
   And as RealAnd,
   Given as RealGiven,

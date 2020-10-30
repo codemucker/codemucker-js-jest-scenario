@@ -34,8 +34,8 @@
     "test-watch": "watch 'npm run test' ./src/ ./test/"
   },
   "dependencies": {
-    "@codemucker/ts-lang": "^0.1.0",
-    "@codemucker/ts-logging": "^0.1.0",
+    "@codemucker/lang": "^0.1.1",
+    "@codemucker/logging": "^0.1.1",
     "tslib": "^2.0.3"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
-import { AtLeastOneOf, isFunction } from '@codemucker/ts-lang'
-import { popContext, pushContext } from '@codemucker/ts-logging'
+import { AtLeastOneOf, isFunction } from '@codemucker/lang'
+import { popContext, pushContext } from '@codemucker/logging'
 
 type TestFunc = () => Promise<any> | void
 type StepType = 'Given' | 'When' | 'Then' | 'AndGiven' | 'AndWhen' | 'AndThen'
