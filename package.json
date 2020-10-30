@@ -2,7 +2,7 @@
   "name": "@codemucker/jest-scenario",
   "description": "Wrapper/extensions to JEST to make it easy to run scenario's using given/when/then",
   "license": "MIT",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "authors": [
     "Bert van Brakel"
   ],
