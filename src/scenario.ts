@@ -53,7 +53,7 @@ export function Scenario(
   if (pending) {
     test.skip(`PENDING Scenario '${label}'`, emptyTestFunc)
   } else {
-    test(`Scenario '${label}'`, async (jestDone: JestDone) => {
+    const testBody = async function (jestDone: JestDone) {
       currentScenario = new ScenarioImp(
         label,
         actualScenarioBody,
@@ -61,7 +61,12 @@ export function Scenario(
         scenarioCfg
       )
       await currentScenario.run()
-    })
+    }
+    if (scenarioCfg.timeoutMs) {
+      test(`Scenario '${label}'`, testBody, scenarioCfg.timeoutMs)
+    } else {
+      test(`Scenario '${label}'`, testBody)
+    }
   }
 }
 
@@ -131,6 +136,10 @@ type ScenarioConfig = {
    * If the scenario is pending then the steps are not run and it's marked as skipped in Jest
    */
   pending: boolean
+  /**
+   * If set, use a custom timeout for the test instead of the jest defaults
+   */
+  timeoutMs?: number
 }
 
 let scenarioCount = 0
