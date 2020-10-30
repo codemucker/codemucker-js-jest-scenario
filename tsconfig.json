@@ -1,0 +1,37 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "outDir": "build/js",
+    /* for compatibility see http://kangax.github.io/compat-table/es2016plus/ */
+    "target": "ES6",
+    "module": "commonjs",
+    "declaration": true,
+    "strict": true,
+    "importHelpers": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    //"moduleResolution": "node",
+    /* allow to import json files (though VS code still complains)*/
+    //"resolveJsonModule": true,
+    "noImplicitAny": true,
+    //"experimentalDecorators": true,
+    //"esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "types": ["node", "jest"],
+    "paths": {
+      "@/*": ["src/*"],
+      "@test/*": ["tests/*"]
+    },
+    "lib": ["ES6", "scripthost", "dom"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "test/**/*.ts",
+    "test/**/*.d.ts",
+    "scratch.ts"
+  ],
+  "exclude": ["node_modules", "build"]
+}

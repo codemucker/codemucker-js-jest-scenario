@@ -1,0 +1,46 @@
+{
+  "name": "@codemucker/jest-scenario",
+  "description": "Wrapper/extensions to JEST to make it easy to run scenario's using given/when/then",
+  "license": "MIT",
+  "version": "0.1.0",
+  "authors": [
+    "Bert van Brakel"
+  ],
+  "keywords": [
+    "typescript",
+    "lang"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:codemucker/codemucker-js-jest-scenario.git"
+  },
+  "private": false,
+  "main": "build/js/src/index.js",
+  "types": "build/js/src/index.d.ts",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "postversion": "git push && git push --tags",
+    "publish": "npm publish --access public",
+    "version": "npm run format && git add -A src",
+    "format": "npx prettier --write .",
+    "lint": "npx prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
+    "clean": "rm -fR build && rm -fR node_modules/",
+    "build": "tsc",
+    "build-watch": "tsc --watch",
+    "test": "npm run build && jest --verbose=true --detectOpenHandles --coverageDirectory build/jest-coverage",
+    "test-watch": "watch 'npm run test' ./src/ ./test/"
+  },
+  "dependencies": {
+    "@codemucker/ts-lang": "^0.1.0",
+    "@codemucker/ts-logging": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "jest": "^26.6.1",
+    "prettier": "2.1.2",
+    "ts-jest": "^26.4.0",
+    "typescript": "~3.9.3"
+  }
+}
