@@ -27,11 +27,13 @@
     "lib": ["ES6", "scripthost", "dom"]
   },
   "include": [
+    "src/**/*",
     "src/**/*.ts",
     "src/**/*.d.ts",
+    "test/**/*",
     "test/**/*.ts",
     "test/**/*.d.ts",
     "scratch.ts"
   ],
-  "exclude": ["node_modules", "build"]
+  "exclude": ["node_modules", "build", "dist"]
 }

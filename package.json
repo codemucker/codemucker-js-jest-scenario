@@ -18,20 +18,20 @@
   "main": "build/js/src/index.js",
   "types": "build/js/src/index.d.ts",
   "scripts": {
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
+    "prepare": "yarn run build",
+    "prepublishOnly": "yarn test && yarn run lint",
+    "preversion": "yarn run lint",
     "postversion": "git push && git push --tags",
-    "release": "npm publish --access public",
-    "pre-commit": "npm run format && npm run lint && npm run test",
-    "version": "npm run format && git add -A src",
+    "release": "yarn publish --access public",
+    "pre-commit": "yarn run format && yarn run lint && yarn run test",
+    "version": "yarn run format && git add -A src",
     "format": "npx prettier --write .",
     "lint": "npx prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "clean": "rm -fR build && rm -fR node_modules/",
     "build": "tsc",
     "build-watch": "tsc --watch",
-    "test": "npm run build && jest --verbose=true --detectOpenHandles --coverageDirectory build/jest-coverage",
-    "test-watch": "watch 'npm run test' ./src/ ./test/"
+    "test": "yarn run build && jest --verbose=true --detectOpenHandles --coverageDirectory build/jest-coverage",
+    "test-watch": "watch 'yarn run test' ./src/ ./test/"
   },
   "dependencies": {
     "@codemucker/lang": "^0.1.1",
